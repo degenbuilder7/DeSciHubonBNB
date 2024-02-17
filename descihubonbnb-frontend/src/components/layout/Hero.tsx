@@ -58,12 +58,6 @@ export default function Hero() {
           </Button>
           <RegisterUser />
         </Stack>
-        <Flex w={'full'} className='space-x-10' >
-          <Image src={gated} alt='gated' className='h-80 w-80'/>
-          <Image src={creator} alt='creator' className='h-80 w-64'/>
-          <Image src={audience} alt='audience' className='h-80 w-80'/>
-        </Flex>
-        <Image src={meeting} alt='meeting' className='h-80 w-80'/>
       </Stack>
     </Container>
   );
