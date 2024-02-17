@@ -17,7 +17,6 @@ import type { AppProps } from 'next/app';
 import { PolybaseProvider , AuthProvider} from "@polybase/react";
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
-import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { chains, provider } = configureChains(
