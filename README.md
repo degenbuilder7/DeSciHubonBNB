@@ -1,6 +1,6 @@
 # DeSciHub on BNB
 
-**Empowering Scientific Research on the Blockchain**
+**Empowering Scientific Research with Quad-Funding on Binance SmartChain**
 
 DeSciHub on BNB is a pioneering decentralized platform designed to revolutionize the way scientific research is published, accessed, and funded. By leveraging the power of blockchain technology, specifically on the Binance Smart Chain, DeSciHub aims to address the challenges faced by the scientific community today, including accessibility, transparency, and the need for efficient funding mechanisms.
 
