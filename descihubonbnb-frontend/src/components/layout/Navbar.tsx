@@ -5,8 +5,7 @@ import { useRouter } from 'next/router';
 import StaticImage from 'next/image';
 import desci from "../../asset/desci.png";
 import { Button } from '@chakra-ui/button';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount} from 'wagmi';
+import { ConnectWallet } from '@thirdweb-dev/react';
 
 const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
   <Link
@@ -25,7 +24,8 @@ const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
 
 
 export default function Navbar() {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  //todo
+  const address="0x1234"
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
@@ -62,7 +62,7 @@ export default function Navbar() {
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
-              <ConnectButton />
+              <ConnectWallet />
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>

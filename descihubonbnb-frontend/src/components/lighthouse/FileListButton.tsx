@@ -2,10 +2,9 @@
 import { useState } from 'react';
 import { Button } from '@chakra-ui/react';
 import lighthouse from "@lighthouse-web3/sdk";
-import { useAccount } from 'wagmi';
 
 const FileListButton = () => {
-  const { address } = useAccount();
+  const address  = "0xqwq";
   const [fileList, setFileList] = useState([]);
   const [toggle,SetToggle] = useState(false);
   

@@ -1,6 +1,5 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 import { RiFilePaper2Line } from "react-icons/ri";
 import lighthouse from "@lighthouse-web3/sdk";
 import { Button } from "@chakra-ui/react";
@@ -46,7 +45,7 @@ const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; p
 );
 
 const Allpaper = () => {
-  const { address } = useAccount();
+  const { address } ="0x12";
   const [uploads, setUploads] = useState<any>({ data: { fileList: [] } });
 
   const getResearchPapers = async () => {

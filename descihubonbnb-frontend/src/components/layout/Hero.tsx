@@ -16,11 +16,11 @@ import audience from "../../asset/audience.png";
 import meeting from "../../asset/meeting.png";
 import gated from "../../asset/gated.png";
 import router from 'next/router';
-import { useAccount } from 'wagmi';
 import RegisterUser from '../RegisterUser';
 
 export default function Hero() {
-  const { address } = useAccount();
+  // todo
+  const address ="0x323"
   return (
     <Container maxW={'5xl'}>
       <Stack
