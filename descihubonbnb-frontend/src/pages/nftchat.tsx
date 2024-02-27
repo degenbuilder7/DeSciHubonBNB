@@ -7,11 +7,11 @@ import { useState } from 'react';
 import { useCollection } from '@polybase/react';
 import { useRouter } from 'next/router';
 import { Button } from '@chakra-ui/react';
-import { useAccount , useEnsName , useEnsAvatar } from 'wagmi';
 import eth from '../../public/assets/ethereum.gif';
 import Image from 'next/image';
 import moonbeam from '../../public/assets/moonbeam.gif';
 import avalanche from '../../public/assets/avalanche.gif';
+import { useAddress } from '@thirdweb-dev/react';
 
 const db = new Polybase({
     defaultNamespace: 'pk/0x4d0a42d54b52f8ca13ebb7bc080afeda61c9790d1dab9fd5523046e4703dc5553ef262f50216f0ae3ddd80960e4dda9de7eac78e27653af50ca533063db4f503/ResearchRev',
@@ -26,17 +26,7 @@ let newd : any;
 function Chat() {
 
   // get the Ens name of the user
-  const { address} = useAccount();
-  const {data : ensdata , isError , isLoading} = useEnsName({
-    address: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
-    chainId: 1,
-  });
-
-  // and then get the Ens Avatar of the user
-  const { data : ensavt , isError: err , isLoading: loaded } = useEnsAvatar({
-    name: address,
-    chainId: 1,
-  })
+  const address = useAddress();
  
   const [result, setResult] = useState(null);
   const [stateuserId, setStateuserId] = useState('');

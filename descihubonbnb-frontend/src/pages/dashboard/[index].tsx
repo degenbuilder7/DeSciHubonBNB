@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { useEventListener, useHuddle01 } from "@huddle01/react";
 import { Audio, Video } from "@huddle01/react/components";
 import { Box, Flex, HStack, Link, Stack, useColorMode, useColorModeValue, useDisclosure, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, Center } from '@chakra-ui/react';
-import { useEffect } from "react";
 import {
   useAudio,
   useLobby,
@@ -29,7 +28,6 @@ const App = () => {
 
   const [roomId, setRoomId] = useState("");
   const [displayNameText, setDisplayNameText] = useState("Guest");
-  const [projectId, setProjectId] = useState( process.env.NEXT_PUBLIC_PROJECT_ID || "");
   const [accessToken, setAccessToken] = useState("");
   // accessToken is used for creating token-gated rooms
 
@@ -142,10 +140,6 @@ const App = () => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    initialize(projectId || "");
-  }, []);
 
   return (
     <>

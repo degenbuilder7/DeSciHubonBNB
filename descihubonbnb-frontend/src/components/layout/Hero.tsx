@@ -8,6 +8,7 @@ import {
   Icon,
   IconProps,
 } from '@chakra-ui/react';
+import React from 'react';
 import Community from "../../asset/community.png";
 import StaticImage  from 'next/image';
 import creator from "../../asset/creator.png";
