@@ -83,7 +83,7 @@ const App = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
+            "x-api-key": process.env.NEXT_PUBLIC_HUDDLE_API_KEY,
           },
         }
       );

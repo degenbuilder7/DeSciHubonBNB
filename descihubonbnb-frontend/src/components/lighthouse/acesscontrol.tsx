@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function AccessControl() {
   const [cid, setCid] = React.useState("QmW5os2bHWSnHaNN7rEknUUog1hhNYc1MWSMjVCoUuaRjU");
-  const [selectedChain, setSelectedChain] = useState("wallaby");
+  const [selectedChain, setSelectedChain] = useState("BSCTest");
   console.log(selectedChain)
   const toast = useToast();
   const handleChainChange = (e : any) => {
@@ -112,9 +112,8 @@ function AccessControl() {
                 onChange={handleChainChange}
               >
                 <option value="testnet">Hyperspace</option>
-                <option value="wallaby">Wallaby</option>
                 <option value="Polygon">Polygon</option>
-                <option value="Ethereum">Ethereum</option>
+                <option value="BSCTest">BSCTest</option>
               </Select>
             </div>
             <div>

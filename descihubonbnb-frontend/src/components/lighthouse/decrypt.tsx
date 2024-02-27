@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import { Button, Link } from '@chakra-ui/react';
 import lighthouse from '@lighthouse-web3/sdk';
+import { useSigner } from '@thirdweb-dev/react';
 
 // make the type of cid as string
 type DecryptProps = {
@@ -11,12 +12,10 @@ function Decrypt({ cid  } : DecryptProps) {
   const [fileURL, setFileURL] = useState('');
 
   const encryptionSignature = async () => {
-    // @ts-ignore
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    const messageRequested = (await lighthouse.getAuthMessage(address)).data.message;
-    const signedMessage = await signer.signMessage(messageRequested);
+    const signer = useSigner();
+    const address = await signer?.getAddress();
+    const messageRequested = (await lighthouse.getAuthMessage(address!)).data.message;
+    const signedMessage = await signer?.signMessage(messageRequested);
     return {
       signedMessage: signedMessage,
       publicKey: address,

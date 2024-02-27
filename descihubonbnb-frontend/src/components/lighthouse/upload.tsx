@@ -3,27 +3,20 @@ import React, {useRef} from "react";
 import { useState } from "react";
 import lighthouse from '@lighthouse-web3/sdk';
 import { Button, useToast } from "@chakra-ui/react";
-import {
-  useAccount,
-  useContract,
-  useProvider,
-  useSigner,
-  useBalance,
-} from "wagmi";
+import { useAddress, useSigner } from "@thirdweb-dev/react";
 
 export default function Upload() {
     const encryptedfileInputRef = useRef(null);
     const toast = useToast();
     const [sig, setSig] = useState(null);
-    const [file , setFile ] = useState<any>()
-    const provider = useProvider();
-    const { data: signer } = useSigner();
-    const { address, isConnected } = useAccount();
+    const [file , setFile ] = useState<any>();
+    const signer = useSigner();
+    const address = useAddress();
+
     console.log(file,"file");
 
     const encryptionSignature = async() =>{
       const messageRequested = (await lighthouse.getAuthMessage(address as string)).data.message;
-      console.log(signer,"signer")
       const signedMessage = await signer?.signMessage(messageRequested);
       return({
         signedMessage: signedMessage,
