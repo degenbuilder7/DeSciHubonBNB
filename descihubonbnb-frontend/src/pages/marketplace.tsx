@@ -11,6 +11,7 @@ import Link from 'next/link';
 import apeabi from '../abis/Ape.json';
 import { FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { Modal , ModalOverlay , ModalBody , ModalContent, ModalHeader , ModalCloseButton , ModalFooter } from '@chakra-ui/react';
+import { useAddress } from '@thirdweb-dev/react';
 const ResearchersPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,7 @@ const ResearchersPage = () => {
   const [recipientAddress, setRecipientAddress] = useState('');
   const daocontractAddress = '0x8d72887163f8bD8A65649Ef4af37dcc21500e5A1';
   const apetokenAddress = '0x3ba884DbC5ab4a74F6e8a736Da81840Aec36b426';
-  const { address } = "0d23";
+  const  address  = useAddress();
   // @ts-ignore
   const provider = typeof window !== 'undefined' ? new ethers.providers.Web3Provider(window.ethereum) : null;
 

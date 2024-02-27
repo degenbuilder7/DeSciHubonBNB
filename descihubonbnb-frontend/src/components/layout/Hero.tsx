@@ -17,10 +17,11 @@ import meeting from "../../asset/meeting.png";
 import gated from "../../asset/gated.png";
 import router from 'next/router';
 import RegisterUser from '../RegisterUser';
+import { useAddress } from "@thirdweb-dev/react";
 
 export default function Hero() {
-  // todo
-  const address ="0x323"
+  const  address  = useAddress();
+
   return (
     <Container maxW={'5xl'}>
       <Stack

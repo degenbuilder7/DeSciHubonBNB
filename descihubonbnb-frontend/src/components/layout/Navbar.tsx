@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import StaticImage from 'next/image';
 import desci from "../../asset/desci.png";
 import { Button } from '@chakra-ui/button';
-import { ConnectWallet } from '@thirdweb-dev/react';
+import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
 
 const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
   <Link
@@ -25,7 +25,7 @@ const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
 
 export default function Navbar() {
   //todo
-  const address="0x1234"
+  const  address  = useAddress();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();

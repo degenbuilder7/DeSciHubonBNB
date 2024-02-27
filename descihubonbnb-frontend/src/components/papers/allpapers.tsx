@@ -4,6 +4,7 @@ import { RiFilePaper2Line } from "react-icons/ri";
 import lighthouse from "@lighthouse-web3/sdk";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
+import { useAddress } from "@thirdweb-dev/react";
 
 const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; publicKey: string; cid: string }) => (
   <Box
@@ -45,7 +46,7 @@ const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; p
 );
 
 const Allpaper = () => {
-  const { address } ="0x12";
+  const  address  = useAddress();
   const [uploads, setUploads] = useState<any>({ data: { fileList: [] } });
 
   const getResearchPapers = async () => {
