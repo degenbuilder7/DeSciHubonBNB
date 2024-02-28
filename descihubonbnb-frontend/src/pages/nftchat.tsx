@@ -124,7 +124,7 @@ function Chat() {
                       height="24">
                       <path
                         fill="#263238"
-                        fill-opacity=".6"
+                        fillOpacity=".6"
                         d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"></path>
                     </svg>
                   </div>
@@ -177,17 +177,10 @@ function Chat() {
                 <h2 className='text-xl text-blue-500'>Get Peer Review</h2>
 
                 <div className="flex">
-                  {ensavt && (
+
                     <div className="ml-4">
-                      <img
-                        src={ensavt}
-                        alt="avatar"
-                        width={80}
-                        className="rounded-full"
-                      />
+                      <img src="https://cdnb.artstation.com/p/assets/images/images/047/600/399/large/surya-nair-mx-scientist-1.jpg?1647977730" alt="researcher" width={80} />
                     </div>
-                  )}
-                  {!ensavt &&  <img src="https://cdnb.artstation.com/p/assets/images/images/047/600/399/large/surya-nair-mx-scientist-1.jpg?1647977730" alt="researcher" width={80} /> }
                 </div>
               </div>
 

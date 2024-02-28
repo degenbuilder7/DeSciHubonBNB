@@ -25,8 +25,8 @@ import desci from "../../asset/desci.png";
       <chakra.button
         bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
         rounded={'full'}
-        w={8}
-        h={8}
+        w={4}
+        h={4}
         cursor={'pointer'}
         as={'a'}
         href={href}
@@ -51,7 +51,7 @@ import desci from "../../asset/desci.png";
         <Container
           as={Stack}
           maxW={'6xl'}
-          py={4}
+          py={2}
           direction={{ base: 'column', md: 'row' }}
           spacing={4}
           justify={{ base: 'center', md: 'space-between' }}
