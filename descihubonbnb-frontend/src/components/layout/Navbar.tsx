@@ -38,11 +38,17 @@ export default function Navbar() {
     { label: 'Peer Review', href: '/nftchat' },
     { label: 'Dashboard', href: `/dashboard/${address}` },
   ];
+  const containerStyle = {
+    backgroundColor: 'rgba(0, 0, 255, 0.1)', // Slightly bluish background
+    color: 'white',
+    backdropFilter: 'blur(10px)', // Glassmorphism effect
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)' // Shadow effect
+  };
 
   console.log(address, 'address');
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box style={ containerStyle}bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
             <Link href="/">

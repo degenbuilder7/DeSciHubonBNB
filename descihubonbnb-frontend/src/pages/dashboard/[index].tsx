@@ -144,7 +144,7 @@ const App = () => {
   return (
     <>
       <div className="grid grid-cols-2">
-        <div>
+        <div> 
           <h1 className="text-2xl font-bold text-center">Dashboard</h1>
           <Box className="p-4 bg-blue-400 rounded-lg">
             <h2 className="text-2xl">My Id</h2>

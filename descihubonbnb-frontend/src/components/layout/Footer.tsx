@@ -11,6 +11,12 @@ import {
   import { ReactNode } from 'react';
 import StaticImage  from 'next/image';
 import desci from "../../asset/desci.png";
+const containerStyle = {
+  backgroundColor: 'rgba(0, 0, 300, 0.1)', // Slightly bluish background
+  color: 'white',
+  backdropFilter: 'blur(10px)', // Glassmorphism effect
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'// Shadow effect
+};
   
   const SocialButton = ({
     children,
@@ -45,7 +51,8 @@ import desci from "../../asset/desci.png";
   
   export default function SmallWithLogoLeft() {
     return (
-      <Box
+      <Box 
+      style={containerStyle}
         bg={useColorModeValue('gray.50', 'gray.900')}
         color={useColorModeValue('gray.700', 'gray.200')}>
         <Container
