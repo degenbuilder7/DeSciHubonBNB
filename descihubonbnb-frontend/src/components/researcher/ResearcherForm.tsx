@@ -1,20 +1,62 @@
-import { useContext, useState } from 'react';
+import axios from "axios";
+import { useState, useContext } from 'react';
 import { Box, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import { ResearcherContext } from '../../../context/ResearcherContext';
 import { useForm } from 'react-hook-form';
+
+// Paste your API Key and Secret here or load them from environment variables
+const pinataApiKey = "ed78d44141b01d666d70";
+const pinataApiSecret = "877694acf5575ccd442002e316965132ab7b1c5da1012d9306c885690cf13db4";
+const pinataApiUrl = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+
+const pinataHeaders = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+    pinata_api_key: pinataApiKey,
+    pinata_secret_api_key: pinataApiSecret,
+  },
+};
+
+// Function to upload file to IPFS
+async function uploadToIPFS(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await axios.post(pinataApiUrl, formData, pinataHeaders);
+    const ipfsHash = response.data.IpfsHash;
+    return `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
+  } catch (error) {
+    console.error("Error uploading file to Pinata:", error);
+    throw error;
+  }
+}
 
 const ResearcherForm = () => {
   const { register, handleSubmit } = useForm();
   const { addResearcher } = useContext(ResearcherContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (data : any) => {
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
 
-    // Perform any API calls or data processing here
-    console.log(data);
+    try {
+      // Upload file to IPFS if provided
+      let ipfsUrl;
+      if (data.file[0]) {
+        const fileUrl = await uploadToIPFS(data.file[0]);
+        ipfsUrl = fileUrl;
+      }
 
-    addResearcher(data);
+      // Add researcher data
+      const researcherData = {
+        ...data,
+        profileUrl: ipfsUrl || '', // Profile URL will be IPFS URL if file is uploaded, otherwise empty string
+      };
+      addResearcher(researcherData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
 
     setIsSubmitting(false);
   };
@@ -44,7 +86,7 @@ const ResearcherForm = () => {
       
         <FormControl id="profileUrl" mb={4}>
           <FormLabel>Profile URL</FormLabel>
-          <Input {...register('profileUrl')} type="text" />
+          <Input {...register('file')} type="file" />
         </FormControl>
 
         <Button type="submit" colorScheme="teal" isLoading={isSubmitting}>
