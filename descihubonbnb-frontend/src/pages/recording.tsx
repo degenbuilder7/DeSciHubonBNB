@@ -1,10 +1,11 @@
-// @ts-nocheck
+
 import React from "react";
 import { Box, Heading, Text, Image , Input , Button } from "@chakra-ui/react";
 import { useState , useEffect } from "react";
 
 const Card = ({ heading, description, imageUrl , videoUrl}) => {
   return (
+    <>
     <Box p={4} maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
       <Image src={imageUrl} alt={heading} maxH="200px" objectFit="cover" className="mx-20"/>
       <video controls autoPlay className="media my-6">
@@ -17,6 +18,7 @@ const Card = ({ heading, description, imageUrl , videoUrl}) => {
         <Text color="gray.600">{description}</Text>
       </Box>
     </Box>
+    </>
   );
 };
 

@@ -9,9 +9,11 @@ import { useRouter } from 'next/router';
 import { Button } from '@chakra-ui/react';
 import eth from '../../public/assets/ethereum.gif';
 import Image from 'next/image';
-import moonbeam from '../../public/assets/moonbeam.gif';
+import binance from '../../public/assets/binance.gif';
 import avalanche from '../../public/assets/avalanche.gif';
 import { useAddress } from '@thirdweb-dev/react';
+import RegisterUser from '../components/RegisterUser';
+import { toast } from 'react-toastify';
 
 const db = new Polybase({
     defaultNamespace: 'pk/0x4d0a42d54b52f8ca13ebb7bc080afeda61c9790d1dab9fd5523046e4703dc5553ef262f50216f0ae3ddd80960e4dda9de7eac78e27653af50ca533063db4f503/ResearchRev',
@@ -44,8 +46,9 @@ function Chat() {
   useEffect(() => {
     const fetchResult = async () => {
       await setStateuserId(address + '');
-      const fkhsd = await chatRef.get();
-      newd = fkhsd.data;
+      const getchats = await chatRef.get();
+      console.log(getchats, 'getchats');
+      newd = getchats.data;
       console.log(newd ,"newd");
     };
     fetchResult();
@@ -55,15 +58,36 @@ function Chat() {
     event.preventDefault();
     const address = await getAddress();
     console.log(address, 'address');
-    const result = await chatRef.create([
-      date + '',
-      state.userId,
-      address,
-      formInput.message,
-    ]);
-    console.log(data,"data");
-    alert('message sent');
-    router.push('/nftchat');
+    if(!state) {
+      toast.error('Please signin first', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return
+    } else{
+      const result = await chatRef.create([
+        date + '',
+        state.userId,
+        address,
+        formInput.message,
+      ]);
+      console.log(result,"data");
+      toast.success('Message sent successfully', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      router.push('/nftchat');
+    }
   };
 
   async function getAddress() {
@@ -75,12 +99,10 @@ function Chat() {
   }
   const handleClick = (name) => {
     setSelectedName(name);
-    console.log(name);
   };
 
   const handleChange = (event) => {
     setFormInput({ ...formInput, [event.target.name]: event.target.value });
-    console.log(formInput.message);
   };
 
   const formattedDate = date.toLocaleDateString('en-US', {
@@ -92,9 +114,10 @@ function Chat() {
 
   return (
     <>
+    <RegisterUser />
     <div style={{ marginTop: '50px' }}>
-      <div className="w-full h-32"></div>
-
+      <div className="w-full h-32">
+      </div>
       <div
         className="container mx-auto"
         style={{
@@ -111,7 +134,7 @@ function Chat() {
               <div className="py-2 px-3 bg-grey-lighter flex flex-row justify-between items-center">
               <div className='flex gap-5'>
                 <Image src={eth} alt="Ethereum" width={100} height={200} />
-                <Image src={moonbeam} alt="Moonbeam" width={100} height={200} />
+                <Image src={binance} alt="Binance" width={100} height={200} />
                 <Image src={avalanche} alt="Avalanche" width={100} height={200} />
               </div>
                 <div className="flex">
@@ -185,7 +208,7 @@ function Chat() {
               </div>
 
               <div
-                className="flex-1 overflow-auto"
+                className="flex-1 overflow-auto text-black"
                 style={{ backgroundColor: '#DAD3CC' }}>
                 <div className="py-2 px-3">
                   <div className="flex justify-center mb-2">

@@ -17,7 +17,6 @@ import audience from "../../asset/audience.png";
 import meeting from "../../asset/meeting.png";
 import gated from "../../asset/gated.png";
 import router from 'next/router';
-import RegisterUser from '../RegisterUser';
 import { useAddress } from "@thirdweb-dev/react";
 
 export default function Hero() {
@@ -58,7 +57,6 @@ export default function Hero() {
           <Button rounded={'full'} px={6} onClick={()=> router.push('/marketplace')}>
             Marketplace
           </Button>
-          <RegisterUser />
         </Stack>
       </Stack>
     </Container>

@@ -1,13 +1,12 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Box, Flex, HStack, Link, Stack, useColorMode, useColorModeValue, useDisclosure, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, Center } from '@chakra-ui/react';
-import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import StaticImage from 'next/image';
 import desci from "../../asset/desci.png";
 import { Button } from '@chakra-ui/button';
 import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
 
-const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
+const NavLink = ({ children, href }: { children; href: string }) => (
   <Link
     px={2}
     py={1}

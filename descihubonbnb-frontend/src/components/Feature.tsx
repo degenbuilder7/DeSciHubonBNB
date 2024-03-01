@@ -71,7 +71,7 @@ export default function Feature() {
           Features
         </Heading>
         <Text color={'gray.600'} fontSize={{ base: 'sm', sm: 'lg' }}>
-          Research Revolution is powered by the best features to provide a decentralised platform for researchers to publish their research papers and get paid for it.
+          Descihub is powered by the best features to provide a decentralised platform for researchers to publish their research papers and get paid for it.
         </Text>
       </Stack>
 

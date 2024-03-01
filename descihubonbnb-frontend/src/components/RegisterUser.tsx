@@ -13,6 +13,7 @@ function RegisterUser() {
     defaultNamespace: 'pk/0x4d0a42d54b52f8ca13ebb7bc080afeda61c9790d1dab9fd5523046e4703dc5553ef262f50216f0ae3ddd80960e4dda9de7eac78e27653af50ca533063db4f503/ResearchRev',
   });
   
+  console.log(state,"state")
   // After user signs up, set the signer function
   db.signer(async (data) => {
     return {
@@ -45,9 +46,14 @@ function RegisterUser() {
 
   return (
     <>
+    <div className='flex justify-center items-center my-6 flex-col'>
+      <p>Sign in to get peer reviews for your research papers</p>
       <Button onClick={handleModalToggle}>User Signup</Button>
+      { !state ? 
       <Button onClick={() => auth.signIn()}>Sign In</Button>
+      :
       <Button onClick={() => auth.signOut()}>Sign Out</Button>
+      }
       <Modal isOpen={isModalOpen} onClose={handleModalToggle}>
         <ModalOverlay />
         <ModalContent>
@@ -87,6 +93,7 @@ function RegisterUser() {
           </ModalBody>
         </ModalContent>
       </Modal>
+    </div>
     </>
   );
 }

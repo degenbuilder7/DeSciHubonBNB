@@ -8,7 +8,6 @@ import {
     VisuallyHidden,
   } from '@chakra-ui/react';
   import { FaTwitter, FaYoutube } from 'react-icons/fa';
-  import { ReactNode } from 'react';
 import StaticImage  from 'next/image';
 import desci from "../../asset/desci.png";
   
@@ -17,7 +16,7 @@ import desci from "../../asset/desci.png";
     label,
     href,
   }: {
-    children: ReactNode;
+    children;
     label: string;
     href: string;
   }) => {
