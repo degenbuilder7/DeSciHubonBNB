@@ -1,10 +1,31 @@
 // @ts-nocheck
-import { useContext } from 'react';
-import { ResearcherContext } from '../../../context/ResearcherContext';
+import {  useEffect } from 'react';
 import { Box, Text, Divider, Flex } from '@chakra-ui/react';
 
 const ResearchersList = () => {
-  const { researchers } = useContext(ResearcherContext);
+  
+  const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
+
+  const [researchers, setResearchers] = useState([]);
+
+  useEffect(() => {
+    const fetchResearchers = async () => {
+      try {
+        const response = await pinata.pinList(
+          { pinataJWTKey: process.env.PINATA_JWT },
+          {
+            pageLimit: 1,
+          }
+        );
+        res.json(response.rows[0]);
+      } catch (e) {
+        console.log(e);
+        res.status(500).send("Server Error");
+      }
+    }
+
+    fetchResearchers();
+  }, []); 
 
   return (
     <Box>
