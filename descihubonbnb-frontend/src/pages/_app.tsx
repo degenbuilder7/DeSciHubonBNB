@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider , ColorModeScript } from '@chakra-ui/react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { Box, Flex } from '@chakra-ui/react';
@@ -9,6 +9,8 @@ import { PolybaseProvider , AuthProvider} from "@polybase/react";
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
 import { ThirdwebProvider } from '@thirdweb-dev/react';
+import { BinanceTestnet } from "@thirdweb-dev/chains";
+import theme from "../../theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // polybase
@@ -17,9 +19,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ThirdwebProvider
-      activeChain="avalanche-fuji"
-      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
+      activeChain={BinanceTestnet}
+      clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
     >
         <PolybaseProvider polybase={polybase}>
         <AuthProvider
