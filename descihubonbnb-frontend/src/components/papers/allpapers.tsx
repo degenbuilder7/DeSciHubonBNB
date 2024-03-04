@@ -126,7 +126,6 @@ const Allpaper = () => {
           </Text>
           <Link
             href={`https://gateway.lighthouse.storage/ipfs/${paperData.cid}`}
-            isExternal
           >
             <Button colorScheme="blue" size="sm" mt={2}>
               View Paper

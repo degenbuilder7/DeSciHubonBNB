@@ -59,7 +59,7 @@ const DistributionForm = () => {
           <FormLabel>Paper ID ?</FormLabel>
           <Input
             value={paperId}
-            onChange={(e) => setPaperId(e.target.value)}
+            onChange={(e) => setPaperId(Number(e.target.value))}
             type="number"
             required
           />
@@ -135,7 +135,7 @@ const DistributionForm = () => {
           <FormLabel>Destination ChainId</FormLabel>
           <Input
             value={dstchainId}
-            onChange={(e) => setDstchainId(e.target.value)}
+            onChange={(e) => setDstchainId(Number(e.target.value))}
             type="number"
             required
           />
