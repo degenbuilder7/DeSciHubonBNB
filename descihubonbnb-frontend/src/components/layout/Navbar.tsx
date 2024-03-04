@@ -6,7 +6,7 @@ import desci from "../../asset/desci.png";
 import { Button } from '@chakra-ui/button';
 import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
 
-const NavLink = ({ children, href }: { children; href: string }) => (
+const NavLink = ({ children, href }) => (
   <Link
     px={2}
     py={1}
@@ -20,15 +20,11 @@ const NavLink = ({ children, href }: { children; href: string }) => (
   </Link>
 );
 
-
-
 export default function Navbar() {
-  //todo
-  const  address  = useAddress();
+  const address = useAddress();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-
 
   const Links = [
     { label: 'Researchhub', href: '/researchhub'},
@@ -38,7 +34,6 @@ export default function Navbar() {
     { label: 'Dashboard', href: `/dashboard/${address}` },
   ];
 
-  console.log(address, 'address');
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -47,10 +42,7 @@ export default function Navbar() {
             <Link href="/">
               <StaticImage src={desci} alt="Logo" width={200} height={40} className='mx-2 mt-4'/>
             </Link>
-            <HStack
-              as={'nav'}
-              spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
+            <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
                 <NavLink key={link.label} href={link.href}>
                   {link.label}

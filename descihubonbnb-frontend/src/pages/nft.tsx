@@ -6,7 +6,7 @@ import { Box, Button, Input, Spinner, Image, Text, Link } from '@chakra-ui/react
 import { ethers } from 'ethers';
 import { useToast } from '@chakra-ui/react';
 // ABIs
-import NFT from '../abis/CreatorNFT.json';
+import ABINFT from '../abis/CreatorNFT.json';
 
 // Config
 
@@ -23,15 +23,13 @@ function App() {
 
   const [message, setMessage] = useState("");
   const [isWaiting, setIsWaiting] = useState(false);
-
+  const [showConfirmMintAI, setShowConfirmMintAI] = useState(false);
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    setProvider(provider)
+    setProvider(provider);
 
-    const network = await provider.getNetwork();
-    console.log(network);
-    // contract deployed on Hyperspace testnet
-    const nft = new ethers.Contract("0x983f1200Af39AC6095FF6DaD829c266ADC5B5Cbf", NFT, provider);
+    // contract deployed on BSC testnet
+    const nft = new ethers.Contract("0x6d1606DF729624FCA861F0A8E76b6f4740fD2539", ABINFT, provider);
     console.log(nft);
     setNFT(nft)
   }
@@ -52,12 +50,19 @@ function App() {
     // Upload image to IPFS (NFT.Storage)
     const url = await uploadImage(imageData);
 
-    // Mint NFT
-    await mintImage(url);
-
-    setIsWaiting(false);
-    setMessage("");
+    setMessage("Uploaded image to IPFS");
   };
+
+  const mintainft = async (e) => {
+
+    e.preventDefault();
+        // Mint NFT
+        await mintImage(url);
+
+        setIsWaiting(false);
+    
+        setMessage("");
+  }
 
 
   const createImage = async () => {
@@ -88,7 +93,7 @@ function App() {
     const base64data = Buffer.from(data).toString('base64')
     const img = `data:${type};base64,` + base64data // <-- This is so we can render it on the page
     setImage(img);
-
+    setShowConfirmMintAI(true);
     return data
   }
 
@@ -120,13 +125,23 @@ function App() {
   }
 
   const mintImage = async (tokenURI) => {
-    setMessage("Waiting for Mint...")
+    setMessage("Waiting for Mint...");
 
-    const signer = await provider.getSigner()
-    const transaction = await nft.connect(signer).mint(tokenURI, { value: ethers.utils.parseUnits("1", "ether") })
+    const signer = await provider.getSigner();
+
+    console.log(signer,"signer")
+    // { value: ethers.utils.parseUnits("0.001", "ether") }
+    const transaction = await nft.connect(signer).mint(tokenURI, { value: ethers.utils.parseUnits("0.0001", "ether") });
     await transaction.wait();
 
-
+    
+    toast({
+      title: "🎉🎉",
+      description: `Access NFT Minted Successfully`,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    })
     console.log(transaction,"transaction");
   }
 
@@ -138,7 +153,7 @@ function App() {
     <>
     <h1 className='text-center text-2xl text-slate-200 my-6'>Generate an AI NFT for your Research Supporters</h1>
     <Box maxW="md" mx="auto">
-      <Box className='form' p={4}>
+      <Box className='form' p={2}>
         <form onSubmit={submitHandler} className='flex flex-col justify-center'>
           <Input
             type="text"
@@ -153,13 +168,23 @@ function App() {
             onChange={(e) => setDescription(e.target.value)}
             className='my-10'
           />
-          <Button mt={2} colorScheme="blue" type="submit" disabled={isWaiting} >
-            Create AI NFT & Mint on Filecoin Network
+          <Button mt={2} colorScheme="blue" type="submit" disabled={isWaiting}>
+              Generate AI Access NFT and Upload to IPFS
           </Button>
-        </form>
+          </form>
+          <div className='flex flex-col'>
+          {showConfirmMintAI && (
+            <Button mt={2} colorScheme="green" onClick={mintainft}>
+              Mint the Access NFT on BSC
+            </Button>
+          )}
+          <Button mt={2} colorScheme="teal" className='' onClick={() => mintImage("https://ipfs.io/ipfs/bafyreidhebl2a6xbv73hdkjdpqnynkazer4glbymq753eqeeejcerw3yzu/metadata.json")}>
+            OR Mint a Static NFT
+          </Button>
+          </div>
 
         <Box className="image" mt={4}>
-          {!isWaiting && image ? (
+          {image ? (
             <Image src={image} alt="AI generated image" />
           ) : isWaiting ? (
             <Box className="image__placeholder" textAlign="center">

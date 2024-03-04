@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Input, SimpleGrid, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { RiFilePaper2Line } from "react-icons/ri";
 import lighthouse from "@lighthouse-web3/sdk";
@@ -6,6 +6,7 @@ import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 import { useAddress } from "@thirdweb-dev/react";
 import { toast } from "react-toastify";
+import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; publicKey: string; cid: string }) => (
   <Box
@@ -49,6 +50,10 @@ const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; p
 const Allpaper = () => {
   const  address  = useAddress();
   const [uploads, setUploads] = useState<any>({ data: { fileList: [] } });
+  const { contract } = useContract("0xeC971D4C0C1c34336ACdC82235025419CAd32f27");
+  const [paperid,setPaperid] = useState(0);
+  const { data, isLoading } = useContractRead(contract, "papers", [{paperid}]);
+  console.log(contract,"contract")
 
   const getResearchPapers = async () => {
     try{
@@ -61,13 +66,26 @@ const Allpaper = () => {
 
   };
 
+  // const getPaper = async () => {
+  //    console.log(data);
+  // }
+  console.log(data);
   useEffect(() => {
     getResearchPapers();
   }, []);
 
+  // useEffect(() => {
+  //   getPaper();
+  // }, [paperid]);
+
   return (
     <Box p={4}>
       <SimpleGrid columns={3} spacing={4}>
+
+        <Input type="number" placeholder="Enter CID" onChange={(e) => setPaperid(e.target.value)} />
+        <Button >
+          View Paper
+        </Button>
         {uploads?.data.fileList.map((file: any) => (
           <ResearchPaperBox
             key={file.id}

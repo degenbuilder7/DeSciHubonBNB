@@ -17,7 +17,8 @@ const ResearcherPage: React.FC<ResearcherPageProps> = ({address}) => {
       </Heading>
       <Tabs variant="soft-rounded" colorScheme="teal">
         <TabList>
-          <Tab>All Papers</Tab>
+          <Tab>My Encrypted Papers</Tab>
+          <Tab>Get Papers</Tab>
           <Tab>New Paper</Tab>
           <Tab>Waiting for Approval</Tab>
           <Tab>Approved Papers</Tab>
