@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { useEffect, useState } from 'react';
-import { Box, Text, Divider, Flex, Image } from '@chakra-ui/react';
+import { Box, Text, Divider, Flex } from '@chakra-ui/react';
 import { toast } from 'react-toastify';
-
+import Image from 'next/image';
 const ResearchersList = () => {
   const [researchers, setResearchers] = useState([]);
 
@@ -30,6 +30,8 @@ const ResearchersList = () => {
     fetchResearchers();
   }, []);
 
+
+  console.log(researchers,"resea")
   return (
     <Box>
       <Text fontSize="2xl" fontWeight="bold" mb={4}>
@@ -49,7 +51,7 @@ const ResearchersList = () => {
           >
             {/* Assuming the researcher data includes a profileUrl field */}
             {researcher.profileUrl && (
-              <Image src={researcher.profileUrl} boxSize="300px" alt="Profile Image" objectFit="cover" />
+              <img src={researcher.profileUrl} boxSize="300px" alt="Profile Image" objectFit="cover"  />
             )}
             <Text fontSize="lg" fontWeight="semibold">
               Name: {researcher.name}

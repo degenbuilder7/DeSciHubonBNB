@@ -28,7 +28,7 @@ interface IZKBridgeReceiver {
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract DescionBNBMarketplace is IZKBridgeReceiver {
+contract DesciHubContract is IZKBridgeReceiver {
   struct Review {
       address reviewer;
       string content;
@@ -72,14 +72,11 @@ contract DescionBNBMarketplace is IZKBridgeReceiver {
     event Voted(uint paperId, uint weight, bool positive);
     event ReviewVoted(uint256 indexed paperId, uint256 reviewIndex, bool isPositive, address voter);
     event RewardsDistributed(uint256 indexed paperId);
-      // Mapping from paper ID to list of reviews
-    mapping(uint256 => Review[]) public paperReviews;
+    mapping(uint256 => Review[]) public paperReviews; // Mapping from paper ID to list of reviews
 
-    address public zkBridgeAddress; // zkBridge address for the deployed network
+    address public zkBridgeAddress = 0xb20F0105f3598652a3bE569132F7b3F341106dDC;
 
-    // Constructor modification to accept zkBridgeAddress
-    constructor(address _zkBridgeAddress) {
-        zkBridgeAddress = _zkBridgeAddress;
+    constructor() {
         members[msg.sender] = true;
     }
 
@@ -195,7 +192,6 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
         // Decode the received payload
         (uint256 paperId, uint256 amount, address donor) = abi.decode(payload, (uint256, uint256, address));
         
-        // Handle the donation (e.g., update paper funding)
         if(paperId <= paperCount) {
             Paper storage paper = papers[paperId];
             paper.funding += amount;
@@ -314,8 +310,8 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
         paper.funding = 0;
     }
 
+    // Distributing rewards to the paper owner and top reviewer
     function distributeRewards(uint256 paperId) public {
-        // Distributing rewards to the paper owner and top reviewer
 
         require(msg.sender == papers[paperId].owner || members[msg.sender], "Only the paper owner or the DAO member can distribute rewards");
 

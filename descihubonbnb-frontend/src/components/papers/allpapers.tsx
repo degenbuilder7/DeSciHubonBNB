@@ -5,6 +5,7 @@ import lighthouse from "@lighthouse-web3/sdk";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 import { useAddress } from "@thirdweb-dev/react";
+import { toast } from "react-toastify";
 
 const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; publicKey: string; cid: string }) => (
   <Box
@@ -29,7 +30,7 @@ const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; p
       CID: {cid}
     </Text>
     <div className="flex justify-center items-center">
-      <Link href= {`https://gateway.lighthouse.storage/ipfs/${cid}`}>
+      <Link href={`https://gateway.lighthouse.storage/ipfs/${cid}`}>
           <Button mx={4} mt={4} p-4>
             View
           </Button>
@@ -50,8 +51,14 @@ const Allpaper = () => {
   const [uploads, setUploads] = useState<any>({ data: { fileList: [] } });
 
   const getResearchPapers = async () => {
-    const uploads = await lighthouse.getUploads(address as string);
-    setUploads(uploads);
+    try{
+      const uploads = await lighthouse.getUploads(process.env.NEXT_PUBLIC_LIGHTHOUSE_API_KEY as string);
+      setUploads(uploads);
+      toast.success("Uploaded papers are ready to view");
+    } catch{
+      toast.error("failed to get the uploaded papers");
+    }
+
   };
 
   useEffect(() => {
