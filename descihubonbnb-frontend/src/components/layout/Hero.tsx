@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import Community from "../../asset/community.png";
-import StaticImage  from 'next/image';
+import StaticImage from 'next/image';
 import creator from "../../asset/creator.png";
 import Image from 'next/image';
 import audience from "../../asset/audience.png";
@@ -18,31 +18,58 @@ import meeting from "../../asset/meeting.png";
 import gated from "../../asset/gated.png";
 import router from 'next/router';
 import { useAddress } from "@thirdweb-dev/react";
+import AIImage from "../../asset/ai.png";
+import Doctor from "../../asset/doctor.webp";
+import DoctorsRole from "../../asset/doctors_role.webp";
+import AnimatedDoc from "../../asset/animated_doc.webp";
+import EquipmentGIF from "../../asset/Equipment.gif";
+import Equipment from "../../asset/equipment_sci.gif";
+import { motion } from 'framer-motion';
 
 export default function Hero() {
-  const  address  = useAddress();
+  const address = useAddress();
 
   return (
     <Container maxW={'5xl'}>
+
       <Stack
         textAlign={'center'}
         align={'center'}
         spacing={{ base: 8, md: 10 }}
         py={{ base: 20, md: 28 }}>
-        <Heading  
+        <Heading
           fontWeight={600}
           fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
           lineHeight={'110%'}>
           Welcome to DeSciHub{'  '}
-          <br/>
+          <br />
           <Text as={'span'} color={'orange.400'}>
             A DeSci Solution on BNB
           </Text>
         </Heading>
+
+        <div className='flex flex-row gap-8'>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+          // whileTap={{ scale: 0.9 }}
+          >
+            <Image src={Equipment} alt="Equipment" className='w-[600px] h-[300px]' />
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+          // whileTap={{ scale: 0.9 }}
+          >
+            <Image src={EquipmentGIF} alt="Equipment GIF" className='w-[600px] h-[300px]' />
+          </motion.div>
+
+        </div>
+
         <Text color={'gray.500'} maxW={'3xl'}>
-        Decentralized science (DeSci) is a movement that aims to build public infrastructure for funding, creating, 
-        reviewing, crediting, storing, and disseminating scientific knowledge fairly and equitably using the Web3 stack.
+          Decentralized science (DeSci) is a movement that aims to build public infrastructure for funding, creating,
+          reviewing, crediting, storing, and disseminating scientific knowledge fairly and equitably using the Web3 stack.
         </Text>
+
         <Stack spacing={6} direction={'row'}>
           <Button
             rounded={'full'}
@@ -51,14 +78,15 @@ export default function Hero() {
             bg={'orange.400'}
             _hover={{ bg: 'orange.500' }}
             onClick={() => router.push(`/${address}`)}
-            >
+          >
             Get started
           </Button>
-          <Button rounded={'full'} px={6} onClick={()=> router.push('/researchhub')}>
+          <Button rounded={'full'} px={6} onClick={() => router.push('/researchhub')}>
             ResearchHub
           </Button>
         </Stack>
       </Stack>
+
     </Container>
   );
 }
