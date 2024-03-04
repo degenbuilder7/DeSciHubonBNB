@@ -84,7 +84,7 @@ export default function Feature() {
             heading={'ZK Funding of the research Papers'}
             icon={<Icon as={GrStorage} w={10} h={10} />}
             description={
-              'Make cross-chain contributions to research papers, empowered by zero-knowledge proofs through Polyhedra. Unlock funding and collaboration across networks.'
+              'Make cross-chain zk contributions to research papers, empowered by zero-knowledge proofs through Polyhedra. Unlock funding and collaboration across networks.'
             }
           />
 

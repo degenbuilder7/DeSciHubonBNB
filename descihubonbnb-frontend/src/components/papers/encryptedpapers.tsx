@@ -46,7 +46,7 @@ const ResearchPaperBox = ({ fileName , publicKey , cid } : { fileName: string; p
   </Box>
 );
 
-const Allpaper = () => {
+const EncryptedPapers = () => {
   const  address  = useAddress();
   const [uploads, setUploads] = useState<any>({ data: { fileList: [] } });
 
@@ -81,4 +81,4 @@ const Allpaper = () => {
   );
 };
 
-export default Allpaper;
+export default EncryptedPapers;

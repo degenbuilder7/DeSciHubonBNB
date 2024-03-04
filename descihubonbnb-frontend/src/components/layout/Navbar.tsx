@@ -28,8 +28,7 @@ export default function Navbar() {
 
   const Links = [
     { label: 'Researchhub', href: '/researchhub'},
-    { label: 'Nft', href: '/nft' },
-    { label: 'Recording', href: '/recording' },
+    { label: 'AIAccessNFT', href: '/nft' },
     { label: 'Peer Review', href: '/nftchat' },
     { label: 'Dashboard', href: `/dashboard/${address}` },
   ];

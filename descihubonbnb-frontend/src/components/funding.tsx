@@ -7,40 +7,43 @@ import {
   Button,
   Select,
 } from '@chakra-ui/react';
+import { useContract, useContractWrite } from "@thirdweb-dev/react";
 
 const DistributionForm = () => {
-  const [destinationAddresses, setDestinationAddresses] = useState('');
-  const [amount,setAmount] = useState('');
+  const [destinationAddress, setDestinationAddress] = useState('');
+  const [amount,setAmount] = useState('1000000');
   const [selectedAsset, setSelectedAsset] = useState('');
   const [selectedSourceChain, setSelectedSourceChain] = useState('');
   const [selectedDestinationChain, setSelectedDestinationChain] = useState('');
+  const[paperId,setPaperId] = useState(0);
+  const [dstchainId, setDstchainId] = useState(0);
+  const { contract } = useContract("0xeC971D4C0C1c34336ACdC82235025419CAd32f27");
+  const { mutateAsync: donateToPaperUsingZkBridge, isLoading } = useContractWrite(contract, "donateToPaperUsingZkBridge")
+
+  const call = async () => {
+    try {
+      const data = await donateToPaperUsingZkBridge({ args: [paperId, dstchainId, destinationAddress, amount] });
+      console.info("contract call successs", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  }
   const handleSubmit = async(event : any) => {
     event.preventDefault();
 
     // Perform any actions with the form data
     console.log({
-      destinationAddresses,
+      destinationAddress,
       amount,
       selectedAsset,
       selectedSourceChain,
       selectedDestinationChain,
     });
 
-    // try {
-    //   await execute({
-    //     amount,
-    //     receiver: destinationAddresses,
-    //     symbol: selectedAsset,
-    //   });
-    //   // Success message or any additional logic
-    //   console.log('Execution successful');
-    // } catch (error) {
-    //   // Handle error
-    //   console.error('Execution error:', error);
-    // }  
+    call();
 
     // Reset form fields
-    setDestinationAddresses('');
+    setDestinationAddress('');
     setAmount('');
     setSelectedAsset('');
     setSelectedSourceChain('');
@@ -51,11 +54,22 @@ const DistributionForm = () => {
     <Box p={4}>
         <h1 className='text-center p-4 text-2xl text-orange-500'>ZKFund the DeSCI Papers Cross-Chain Powered by Polyhedra Network</h1>
       <form onSubmit={handleSubmit}>
-        <FormControl id="destinationAddresses" mb={4}>
-          <FormLabel>Array of Destination Addresses</FormLabel>
+
+      <FormControl id="paperId" mb={4}>
+          <FormLabel>Paper ID ?</FormLabel>
           <Input
-            value={destinationAddresses}
-            onChange={(e) => setDestinationAddresses(e.target.value)}
+            value={paperId}
+            onChange={(e) => setPaperId(e.target.value)}
+            type="number"
+            required
+          />
+        </FormControl>
+
+        <FormControl id="destinationAddress" mb={4}>
+          <FormLabel>Destination Address</FormLabel>
+          <Input
+            value={destinationAddress}
+            onChange={(e) => setDestinationAddress(e.target.value)}
             type="text"
             required
           />
@@ -79,16 +93,11 @@ const DistributionForm = () => {
             required
           >
             <option value="">Select an asset</option>
-            <option value="aUSDC">aUSDC</option>
-            <option value="wAXL">wAXL</option>
-            <option value="CELO">CELO</option>
-            <option value="axlWETH">axlWETH</option>
-            <option value="WMATIC">WMATIC</option>
-            <option value="WAVAX">WAVAX</option>
-            <option value="WFTM">WFTM</option>
-            <option value="WBNB">WBNB</option>
-            <option value="WFIL">WFIL</option>
-            <option value="WDEV">WDEV</option>
+            <option value="ETH">ETH</option>
+            <option value="BNB">BNB</option>
+            <option value="USDT">USDT</option>
+            <option value="BTCB">BTCB</option>
+            <option value="FDUSD">FDUSD</option>
           </Select>
         </FormControl>
 
@@ -102,7 +111,7 @@ const DistributionForm = () => {
             <option value="">Select a source chain</option>
             <option value="Ethereum">Ethereum</option>
             <option value="Polygon">Polygon</option>
-            <option value="Avalanche">Avalanche</option>
+            <option value="Avalanche">OPBNB</option>
             <option value="BNB">BNB</option>
           </Select>
         </FormControl>
@@ -117,9 +126,19 @@ const DistributionForm = () => {
             <option value="">Select a destination chain</option>
             <option value="Ethereum">Ethereum</option>
             <option value="Polygon">Polygon</option>
-            <option value="Avalanche">Avalanche</option>
+            <option value="Avalanche">OPBNB</option>
             <option value="BNB">BNB</option>
           </Select>
+        </FormControl>
+
+        <FormControl id="paperId" mb={4}>
+          <FormLabel>Destination ChainId</FormLabel>
+          <Input
+            value={dstchainId}
+            onChange={(e) => setDstchainId(e.target.value)}
+            type="number"
+            required
+          />
         </FormControl>
 
         <Button type="submit" colorScheme="teal">

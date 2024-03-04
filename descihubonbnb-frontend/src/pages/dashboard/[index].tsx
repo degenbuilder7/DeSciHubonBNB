@@ -141,6 +141,7 @@ const App = () => {
     }
   };
 
+  console.log(roomId, "roomId", accessToken,"acc");
   return (
     <>
       <div className="grid grid-cols-2">
@@ -240,11 +241,15 @@ const App = () => {
                 className="border-2 border-gray-300 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
               />
 
+
+
               <Button
-                disabled={!joinLobby.isCallable}
                 onClick={() => {
                   if (accessToken) joinLobby(roomId, accessToken);
-                  else joinLobby(roomId);
+                  else{
+                    console.log("no access token");
+                    joinLobby(roomId)
+                  }
                 }}
                 className="p-2 text-sm"
               >
