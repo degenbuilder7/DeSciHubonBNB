@@ -49,7 +49,7 @@ const DistributionForm = () => {
 
   return (
     <Box p={4}>
-        <h1 className='text-center p-4'>Fund the DeSCI Papers Cross-Chain Powered by CCIP</h1>
+        <h1 className='text-center p-4 text-2xl text-orange-500'>ZKFund the DeSCI Papers Cross-Chain Powered by Polyhedra Network</h1>
       <form onSubmit={handleSubmit}>
         <FormControl id="destinationAddresses" mb={4}>
           <FormLabel>Array of Destination Addresses</FormLabel>

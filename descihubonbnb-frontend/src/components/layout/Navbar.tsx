@@ -31,7 +31,7 @@ export default function Navbar() {
 
 
   const Links = [
-    { label: 'Marketplace', href: '/marketplace'},
+    { label: 'Researchhub', href: '/researchhub'},
     { label: 'Nft', href: '/nft' },
     { label: 'Recording', href: '/recording' },
     { label: 'Peer Review', href: '/nftchat' },
@@ -45,7 +45,7 @@ export default function Navbar() {
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
             <Link href="/">
-              <StaticImage src={desci} alt="Logo" width={250} height={50} className='mx-2 mt-4'/>
+              <StaticImage src={desci} alt="Logo" width={200} height={40} className='mx-2 mt-4'/>
             </Link>
             <HStack
               as={'nav'}

@@ -54,8 +54,8 @@ export default function Hero() {
             >
             Get started
           </Button>
-          <Button rounded={'full'} px={6} onClick={()=> router.push('/marketplace')}>
-            Marketplace
+          <Button rounded={'full'} px={6} onClick={()=> router.push('/researchhub')}>
+            ResearchHub
           </Button>
         </Stack>
       </Stack>

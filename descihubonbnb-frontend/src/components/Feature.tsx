@@ -25,7 +25,7 @@ interface CardProps {
   href: string;
 }
 
-const Card = ({ heading, description, icon, href }: CardProps) => {
+const Card = ({ heading, description, icon }: CardProps) => {
   return (
     <Box
       maxW={{ base: 'full', md: '275px' }}
@@ -54,9 +54,6 @@ const Card = ({ heading, description, icon, href }: CardProps) => {
             {description}
           </Text>
         </Box>
-        <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
-          Learn more
-        </Button>
       </Stack>
     </Box>
   );
@@ -83,31 +80,28 @@ export default function Feature() {
             description={
               'Chat with your community members and get access to exclusive content and groups powered by Polybase.'
             }
-            href={'#'}
           />
           <Card
-            heading={'DataDAO Market'}
+            heading={'ZK Funding of the research Papers'}
             icon={<Icon as={GrStorage} w={10} h={10} />}
             description={
-              'A new programmable market build using FVM to sell your research papers and receive cross-chain funding.'
+              'Make cross-chain contributions to research papers, empowered by zero-knowledge proofs through Polyhedra. Unlock funding and collaboration across networks.'
             }
-            href={'#'}
           />
+
           <Card
             heading={'Global Collaboration'}
             icon={<Icon as={FcCollaboration} w={10} h={10} />}
             description={
               'Collaborate with peers from all over the globe using Polybase and enhance your research projects.'
             }
-            href={'#'}
           />
           <Card
             heading={'Lighthouse Powered Access Control'}
             icon={<Icon as={SiLighthouse} w={10} h={10} />}
             description={
-              'Apply access control to your files uploaded to FVM, ensuring privacy and data protection.'
+              'Apply access control to your files uploaded to BSC, ensuring privacy and data protection.'
             }
-            href={'#'}
           />
           <Card
             heading={'Peer Review System'}
@@ -115,15 +109,13 @@ export default function Feature() {
             description={
               'Contribute to the research community and earn tokens and reputation by peer-reviewing work using the Polybase platform.'
             }
-            href={'#'}
           />
           <Card
             heading={'Decentralized Storage'}
             icon={<Icon as={GrPersonalComputer} w={10} h={10} />}
             description={
-              'Store your research papers on the Filecoin Virtual Machine (FVM) for durable, secure, and resilient storage.'
+              'Store your research papers on the Filecoin Virtual Machine (BSC) for durable, secure, and resilient storage.'
             }
-            href={'#'}
           />
         </Flex>
       </Container>
