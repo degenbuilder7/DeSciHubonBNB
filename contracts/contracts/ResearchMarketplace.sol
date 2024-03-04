@@ -1,8 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ResearchMarketplace {
-    enum PaperStage { Approved, Rejected, Published }
+contract DescionBNBMarketplace {
+  struct Review {
+      address reviewer;
+      string content;
+      uint256 timestamp;
+      uint positiveVotes;
+      uint negativeVotes;
+  }
 
     struct Paper {
         string title;
@@ -15,13 +21,17 @@ contract ResearchMarketplace {
         PaperStage stage;
         // more than 1 owners for a paper
         mapping(address => bool) owners;
-        address walletAddress;
+        address treasuryaddress;
         // quad voting
         mapping(address => uint) positiveVotes; // user => weight
         mapping(address => uint) negativeVotes; // user => weight
         uint totalPositiveWeight;
         uint totalNegativeWeight;
+        Review[] paperReviews;
+        address accessnftaddress;
     }
+
+    enum PaperStage { Approved, Rejected, Published }
 
     mapping(uint256 => Paper) public papers;
     uint256 public paperCount;
@@ -38,15 +48,17 @@ contract ResearchMarketplace {
       // Mapping from paper ID to list of reviews
     mapping(uint256 => Review[]) public paperReviews;
 
-  struct Review {
-      address reviewer;
-      string content;
-      uint256 timestamp;
-      uint positiveVotes;
-      uint negativeVotes;
-  }
+        constructor() {
+        members[msg.sender] = true;
+    }
 
-  function submitReview(uint256 paperId, string memory content) external onlyMembers {
+
+  /**
+     * @dev Allows users to submit reviews for a specific paper.
+     * @param paperId Identifier of the paper to review.
+     * @param content Review content.
+     */ 
+  function submitReview(uint256 paperId, string memory content) external {
       paperReviews[paperId].push(Review({
           reviewer: msg.sender,
           content: content,
@@ -58,7 +70,13 @@ contract ResearchMarketplace {
 
   event ReviewSubmitted(uint256 indexed paperId, address reviewer, string content, uint256 timestamp);
 
-function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) external onlyMembers {
+/**
+     * @dev Enables voting on a specific review.
+     * @param paperId Identifier of the paper.
+     * @param reviewIndex Index of the review in the paper's review array.
+     * @param isPositive Boolean indicating if the vote is positive or negative.
+     */
+function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) external {
     Review storage review = paperReviews[paperId][reviewIndex];
     if (isPositive) {
         review.positiveVotes += 1;
@@ -68,13 +86,9 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
 
     emit ReviewVoted(paperId, reviewIndex, isPositive, msg.sender);
 }
-
-    constructor() {
-        // Add the DAO members during contract deployment
-        members[msg.sender] = true;
-        // Add more members if needed
-    }
-
+   /**
+     * @dev Modifier to restrict function access to members only.
+    */
     modifier onlyMembers() {
         require(members[msg.sender], "Only members can call this function");
         _;
@@ -88,7 +102,19 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
         members[member] = false;
     }
 
-    function uploadPaper(string memory title, string memory author, string memory content, uint256 funding, bool isReproducible, PaperStage stage , address walletAddress) external {
+
+    /**
+     * @dev Uploads a new paper to the platform.
+     * @param title Title of the paper.
+     * @param author Author of the paper.
+     * @param content Content of the paper.
+     * @param funding Initial funding allocated to the paper.
+     * @param isReproducible Indicates if the paper's results are reproducible.
+     * @param stage Initial stage of the paper.
+     * @param treasuryAddress Address of the treasury for reward distribution.
+     * @param accessNFTAddress Address of the associated access NFT.
+     */
+    function uploadPaper(string memory title, string memory author, string memory content, uint256 funding, bool isReproducible, PaperStage stage , address _treasuryaddress , address _accessnftaddress) external {
         uint256 timestamp = block.timestamp;
         uint256 paperId = paperCount + 1;
         Paper storage newPaper = papers[paperId];
@@ -100,13 +126,18 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
         newPaper.funding = funding;
         newPaper.isReproducible = isReproducible;
         newPaper.stage = stage;
-        newPaper.walletAddress = walletAddress;
+        newPaper.treasuryaddress = _treasuryaddress;
         papers[paperId].owners[msg.sender] = true;
         paperCount++;
-
+        newPaper.accessnftaddress = _accessnftaddress;
         emit PaperUploaded(paperId, title, author, timestamp, stage);
     }
 
+   /**
+     * @dev Updates the stage of a paper.
+     * @param paperId Identifier of the paper.
+     * @param stage New stage to set.
+     */
     function updatePaperStage(uint256 paperId, PaperStage stage) public onlyMembers {
         require(paperId <= paperCount, "Invalid paperId");
         papers[paperId].stage = stage;
@@ -114,6 +145,11 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
         emit PaperStageUpdated(paperId, stage);
     }
 
+    /**
+     * @dev Updates the funding for a paper.
+     * @param paperId Identifier of the paper.
+     * @param newFunding New funding amount.
+     */
     function updateFunding(uint256 paperId, uint256 newFunding) external {
         require(paperId <= paperCount, "Invalid paperId");
         require(papers[paperId].owners[msg.sender], "You can only update funding for your own paper");
@@ -123,14 +159,17 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
         emit FundingUpdated(paperId, newFunding);
     }
 
-    function addPaperOwner(uint256 paperId, address newOwner) external onlyMembers {
+    function addPaperOwner(uint256 paperId, address newOwner) external {
         require(paperId <= paperCount, "Invalid paperId");
+        require(!papers[paperId].owners[newOwner], "Owner already exists for this paper");
+        require(msg.sender == papers[paperId].owner, "Only the paper owner can add new owners");
         papers[paperId].owners[newOwner] = true;
     }
 
-    function removePaperOwner(uint256 paperId, address owner) external onlyMembers {
+    function removePaperOwner(uint256 paperId, address owner) external {
         require(paperId <= paperCount, "Invalid paperId");
         require(papers[paperId].owners[owner], "Owner does not exist for this paper");
+        require(msg.sender == papers[paperId].owner, "Only the paper owner can remove owners");
         papers[paperId].owners[owner] = false;
     }
 
@@ -155,7 +194,7 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
       return 0;
     }
   }
-// helper fubnc end
+    // helper functions end
 
     function positiveVote(uint paperId, uint weight) public payable {
     Paper storage paper = papers[paperId];
@@ -216,19 +255,19 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
         paper.funding = 0;
     }
 
-    // Function to distribute rewards
     function distributeRewards(uint256 paperId) public {
-        // let's distribute fixed rewards to the paper owner and top reviewer
+        // Distributing rewards to the paper owner and top reviewer
 
-        uint256 totalReward = 1 ether; // Example fixed reward amount
-        uint256 paperOwnerReward = totalReward * 70 / 100; // 70% to paper owner
-        uint256 topReviewerReward = totalReward * 30 / 100; // 30% to top reviewer
+        require(msg.sender == papers[paperId].owner || members[msg.sender], "Only the paper owner or the DAO member can distribute rewards");
+
+        uint256 totalReward = papers[paperId].funding;
+        uint256 paperOwnerReward = totalReward * 80 / 100; // 80% to paper owner
+        uint256 topReviewerReward = totalReward * 20 / 100; // 20% to top reviewer
 
         Paper storage paper = papers[paperId];
         address payable paperOwner = paper.owner;
         paperOwner.transfer(paperOwnerReward);
 
-        // Find top reviewer based on positive votes (simplified example)
         uint256 topReviewIndex = 0;
         uint256 maxVotes = 0;
         for (uint256 i = 0; i < paperReviews[paperId].length; i++) {

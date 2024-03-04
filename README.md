@@ -4,6 +4,9 @@
 
 DeSciHub on BNB is a pioneering decentralized platform designed to revolutionize the way scientific research is published, accessed, and funded. By leveraging the power of blockchain technology, specifically on the Binance Smart Chain, DeSciHub aims to address the challenges faced by the scientific community today, including accessibility, transparency, and the need for efficient funding mechanisms.
 
+Contract Address -> https://testnet.bscscan.com/address/0x30498d8115924dd64a5bb0618a4c8906f1c30933
+
+AccessNFT-> https://testnet.bscscan.com/nft/0x8d13a01dd062b4197ed6457e9f8c2ddf59bed978/15586312262
 ## Features
 
 - **Decentralized Research Marketplace**: A blockchain-based marketplace where researchers can publish their papers, receive feedback, and get rewarded in cryptocurrency.
