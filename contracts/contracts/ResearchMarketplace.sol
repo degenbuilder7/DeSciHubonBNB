@@ -1,7 +1,34 @@
+
+pragma solidity ^0.8.0;
+
+interface IZKBridge {
+    
+    // @notice send a zkBridge message to the specified address at a zkBridge endpoint.
+    // @param dstChainId - the destination chain identifier
+    // @param dstAddress - the address on destination chain
+    // @param payload - a custom bytes payload to send to the destination contract
+    function send(uint16 dstChainId, address dstAddress, bytes memory payload) external payable returns (uint64 nonce);
+
+    // @notice gets a quote in source native gas, for the amount that send() requires to pay for message delivery
+    // @param dstChainId - the destination chain identifier
+    function estimateFee(uint16 dstChainId) external view returns (uint256 fee);
+}
+
+pragma solidity ^0.8.0;
+
+interface IZKBridgeReceiver {
+    // @notice zkBridge endpoint will invoke this function to deliver the message on the destination
+    // @param srcChainId - the source endpoint identifier
+    // @param srcAddress - the source sending contract address from the source chain
+    // @param nonce - the ordered message nonce
+    // @param payload - a custom bytes payload from send chain
+    function zkReceive(uint16 srcChainId, address srcAddress, uint64 nonce, bytes calldata payload) external;
+}
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract DescionBNBMarketplace {
+contract DescionBNBMarketplace is IZKBridgeReceiver {
   struct Review {
       address reviewer;
       string content;
@@ -48,7 +75,11 @@ contract DescionBNBMarketplace {
       // Mapping from paper ID to list of reviews
     mapping(uint256 => Review[]) public paperReviews;
 
-        constructor() {
+    address public zkBridgeAddress; // zkBridge address for the deployed network
+
+    // Constructor modification to accept zkBridgeAddress
+    constructor(address _zkBridgeAddress) {
+        zkBridgeAddress = _zkBridgeAddress;
         members[msg.sender] = true;
     }
 
@@ -111,8 +142,8 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
      * @param funding Initial funding allocated to the paper.
      * @param isReproducible Indicates if the paper's results are reproducible.
      * @param stage Initial stage of the paper.
-     * @param treasuryAddress Address of the treasury for reward distribution.
-     * @param accessNFTAddress Address of the associated access NFT.
+     * @param _treasuryaddress Address of the treasury for reward distribution.
+     * @param _accessnftaddress Address of the associated access NFT.
      */
     function uploadPaper(string memory title, string memory author, string memory content, uint256 funding, bool isReproducible, PaperStage stage , address _treasuryaddress , address _accessnftaddress) external {
         uint256 timestamp = block.timestamp;
@@ -144,6 +175,34 @@ function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) ext
 
         emit PaperStageUpdated(paperId, stage);
     }
+
+    function donateToPaperUsingZkBridge(uint256 paperId, uint16 dstChainId, address dstAddress, uint256 amount) external payable {
+        require(paperId <= paperCount, "Invalid paperId");
+        Paper storage paper = papers[paperId];
+        
+        // Encode the donation details
+        bytes memory payload = abi.encode(paperId, amount, msg.sender);
+
+        // Estimate the message fee
+        uint256 fee = IZKBridge(zkBridgeAddress).estimateFee(dstChainId);
+        require(msg.value >= fee, "Insufficient fee");
+
+        // Send the donation
+        IZKBridge(zkBridgeAddress).send{value: msg.value}(dstChainId, dstAddress, payload);
+    }
+
+    function zkReceive(uint16 srcChainId, address srcAddress, uint64 nonce, bytes calldata payload) external override {
+        // Decode the received payload
+        (uint256 paperId, uint256 amount, address donor) = abi.decode(payload, (uint256, uint256, address));
+        
+        // Handle the donation (e.g., update paper funding)
+        if(paperId <= paperCount) {
+            Paper storage paper = papers[paperId];
+            paper.funding += amount;
+            // Emit an event or handle as needed
+        }
+    }
+
 
     /**
      * @dev Updates the funding for a paper.
