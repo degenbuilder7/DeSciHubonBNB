@@ -1,6 +1,7 @@
 import formidable from "formidable";
 import fs from "fs";
 import FormData from "form-data";
+
 const pinataSDK = require("@pinata/sdk");
 const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
 

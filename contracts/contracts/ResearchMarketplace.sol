@@ -33,6 +33,42 @@ contract ResearchMarketplace {
     event PaperStageUpdated(uint256 indexed paperId, PaperStage stage);
     event FundingUpdated(uint256 indexed paperId, uint256 funding);
     event Voted(uint paperId, uint weight, bool positive);
+    event ReviewVoted(uint256 indexed paperId, uint256 reviewIndex, bool isPositive, address voter);
+    event RewardsDistributed(uint256 indexed paperId);
+      // Mapping from paper ID to list of reviews
+    mapping(uint256 => Review[]) public paperReviews;
+
+  struct Review {
+      address reviewer;
+      string content;
+      uint256 timestamp;
+      uint positiveVotes;
+      uint negativeVotes;
+  }
+
+  function submitReview(uint256 paperId, string memory content) external onlyMembers {
+      paperReviews[paperId].push(Review({
+          reviewer: msg.sender,
+          content: content,
+          timestamp: block.timestamp,
+          positiveVotes: 0,
+          negativeVotes: 0
+      }));
+  }
+
+  event ReviewSubmitted(uint256 indexed paperId, address reviewer, string content, uint256 timestamp);
+
+function voteOnReview(uint256 paperId, uint256 reviewIndex, bool isPositive) external onlyMembers {
+    Review storage review = paperReviews[paperId][reviewIndex];
+    if (isPositive) {
+        review.positiveVotes += 1;
+    } else {
+        review.negativeVotes += 1;
+    }
+
+    emit ReviewVoted(paperId, reviewIndex, isPositive, msg.sender);
+}
+
     constructor() {
         // Add the DAO members during contract deployment
         members[msg.sender] = true;
@@ -178,6 +214,34 @@ contract ResearchMarketplace {
         require(msg.sender == paper.owner);
         paper.owner.transfer(paper.funding);
         paper.funding = 0;
+    }
+
+    // Function to distribute rewards
+    function distributeRewards(uint256 paperId) public {
+        // let's distribute fixed rewards to the paper owner and top reviewer
+
+        uint256 totalReward = 1 ether; // Example fixed reward amount
+        uint256 paperOwnerReward = totalReward * 70 / 100; // 70% to paper owner
+        uint256 topReviewerReward = totalReward * 30 / 100; // 30% to top reviewer
+
+        Paper storage paper = papers[paperId];
+        address payable paperOwner = paper.owner;
+        paperOwner.transfer(paperOwnerReward);
+
+        // Find top reviewer based on positive votes (simplified example)
+        uint256 topReviewIndex = 0;
+        uint256 maxVotes = 0;
+        for (uint256 i = 0; i < paperReviews[paperId].length; i++) {
+            if (paperReviews[paperId][i].positiveVotes > maxVotes) {
+                topReviewIndex = i;
+                maxVotes = paperReviews[paperId][i].positiveVotes;
+            }
+        }
+
+        address payable topReviewer = payable(paperReviews[paperId][topReviewIndex].reviewer);
+        topReviewer.transfer(topReviewerReward);
+
+        emit RewardsDistributed(paperId);
     }
     
 }
