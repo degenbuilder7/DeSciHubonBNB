@@ -22,7 +22,6 @@ interface CardProps {
   heading: string;
   description: string;
   icon: ReactElement;
-  href: string;
 }
 
 const Card = ({ heading, description, icon }: CardProps) => {
