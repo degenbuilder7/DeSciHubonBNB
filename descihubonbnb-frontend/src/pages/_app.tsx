@@ -8,9 +8,14 @@ import type { AppProps } from 'next/app';
 import { PolybaseProvider , AuthProvider} from "@polybase/react";
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
-import { ThirdwebProvider } from '@thirdweb-dev/react';
 import { BinanceTestnet , Mumbai } from "@thirdweb-dev/chains";
 import theme from "../../theme";
+import {
+  ThirdwebProvider,
+  ConnectWallet,
+  metamaskWallet,
+  coinbaseWallet,
+} from "@thirdweb-dev/react";
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
@@ -23,10 +28,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      
     <ThirdwebProvider
       activeChain={BinanceTestnet}
       clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
       supportedChains={[ Mumbai, BinanceTestnet ]}
+      supportedWallets={[
+        metamaskWallet(),
+        coinbaseWallet({ recommended: true }),
+      ]}
     >
         <PolybaseProvider polybase={polybase}>
         <AuthProvider

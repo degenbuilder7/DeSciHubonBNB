@@ -53,7 +53,18 @@ export default function Navbar() {
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
-              <ConnectWallet />
+            <ConnectWallet
+        theme={"dark"}
+        modalTitle={"CrossChainDesci"}
+        modalSize={"wide"}
+        welcomeScreen={{
+          img: {
+            src: "https://github.com/kamalbuilds/CrossChainDesci/blob/axellar-secret/descihubonbnb-frontend/public/assets/CrossChainDesci.png?raw=true",
+            width: 350,
+            height: 300,
+          },
+        }}
+      />
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
