@@ -1,8 +1,8 @@
-# DeSciHub on BNB
+# CrossChainDesci
 
-**Empowering Scientific Research with Quad-Funding on Binance SmartChain**
+**Empowering Scientific Research with CrossChain Quadratic-Funding**
 
-DeSciHub on BNB is a pioneering decentralized platform designed to revolutionize the way scientific research is published, accessed, and funded. By leveraging the power of blockchain technology, specifically on the Binance Smart Chain, DeSciHub aims to address the challenges faced by the scientific community today, including accessibility, transparency, and the need for efficient funding mechanisms.
+CrossChainDesci on BNB is a pioneering decentralized platform designed to revolutionize the way scientific research is published, accessed, and funded. By leveraging the power of blockchain technology, specifically on the Binance Smart Chain, CrossChainDesci aims to address the challenges faced by the scientific community today, including accessibility, transparency, and the need for efficient funding mechanisms.
 
 Contract Address -> https://testnet.bscscan.com/address/0x30498d8115924dd64a5bb0618a4c8906f1c30933
 
@@ -22,16 +22,4 @@ The traditional scientific publishing industry is plagued with issues such as hi
 
 ## The Solution
 
-DeSciHub on BNB addresses these challenges by creating a decentralized ecosystem for scientific research. By utilizing blockchain technology, it ensures that scientific knowledge is accessible, transparent, and free from the control of any central authority. Researchers can publish their work directly on the platform, receive immediate feedback, and earn rewards in cryptocurrency. Moreover, the platform's token-gated access and NFT minting capabilities offer new ways to secure and monetize intellectual property.
-
-## Getting Started
-
-To start using DeSciHub on BNB, follow these steps:
-
-1. Visit our [website](https://github.com/wagmi7/DeSciHubonBNB) and connect your Binance Smart Chain wallet.
-2. Browse the research marketplace to discover groundbreaking scientific papers.
-3. If you're a researcher, submit your paper through our decentralized platform for review and publication.
-
-## Contribute
-
-We welcome contributions from developers, researchers, and enthusiasts alike. If you're interested in contributing to the DeSciHub on BNB project, please check out our [GitHub repository](https://github.com/wagmi7/DeSciHubonBNB).
+CrossChainDesci on BNB addresses these challenges by creating a decentralized ecosystem for scientific research. By utilizing blockchain technology, it ensures that scientific knowledge is accessible, transparent, and free from the control of any central authority. Researchers can publish their work directly on the platform, receive immediate feedback, and earn rewards in cryptocurrency. Moreover, the platform's token-gated access and NFT minting capabilities offer new ways to secure and monetize intellectual property.
