@@ -9,7 +9,7 @@ import { PolybaseProvider , AuthProvider} from "@polybase/react";
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
 import { ThirdwebProvider } from '@thirdweb-dev/react';
-import { BinanceTestnet } from "@thirdweb-dev/chains";
+import { BinanceTestnet , Mumbai } from "@thirdweb-dev/chains";
 import theme from "../../theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThirdwebProvider
       activeChain={BinanceTestnet}
       clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
+      supportedChains={[ Mumbai, BinanceTestnet ]}
     >
         <PolybaseProvider polybase={polybase}>
         <AuthProvider

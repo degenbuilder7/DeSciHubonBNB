@@ -24,10 +24,9 @@ const SecretFunding = () => {
   const { contract } = useContract("0xeC971D4C0C1c34336ACdC82235025419CAd32f27");
   const { mutateAsync: donateToPaperUsingZkBridge, isLoading } = useContractWrite(contract, "donateToPaperUsingZkBridge")
 
-  const signer = useSigner();
-const wallet = useWallet();
-
-console.log(signer,wallet,"w",signer.provider)
+  // const signer = useSigner();
+// const wallet = useWallet();
+  
   const call = async () => {
     try {
       const data = await donateToPaperUsingZkBridge({ args: [paperId, dstchainId, destinationAddress, amount] });
@@ -42,11 +41,14 @@ console.log(signer,wallet,"w",signer.provider)
 
 
 async function test() {
-  const provider = signer.provider;
 
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+
+  console.log(signer,signer,"w")
 
   const requestOptions: SendTokenParams = {
-    fromChain: CHAINS.TESTNET.AVALANCHE,
+    fromChain: CHAINS.TESTNET.POLYGON,
     toChain: CHAINS.TESTNET.OSMOSIS,
     destinationAddress: "osmo1x3z2vepjd7fhe30epncxjrk0lehq7xdqe8ltsn",
     asset: { symbol: "aUSDC" }, // token decimal - 6
@@ -88,6 +90,8 @@ const handleSubmit = async(event : any) => {
   return (
     <Box p={4}>
         <h1 className='text-center p-4 text-2xl text-orange-500'>Cross-Chain Fund the DeSCI Papers Powered by Secret Network</h1>
+
+        <Button onClick={test}>Donate To Paper</Button>
       <form onSubmit={handleSubmit}>
 
       <FormControl id="paperId" mb={4}>
