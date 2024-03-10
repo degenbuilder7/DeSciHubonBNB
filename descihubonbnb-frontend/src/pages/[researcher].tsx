@@ -5,6 +5,7 @@ import Uploadtab from '../components/Uploadtab';
 import Allpaper from '../components/papers/allpapers';
 import Funding from '../components/funding';
 import EncryptedPapers from '../components/papers/encryptedpapers';
+import SecretFunding from '../components/secretfunding'; 
 
 type ResearcherPageProps = {
   address: string;
@@ -26,6 +27,7 @@ const ResearcherPage: React.FC<ResearcherPageProps> = ({address}) => {
           <Tab>Rejected Papers</Tab>
           <Tab>Published Papers</Tab>
           <Tab>ZK Funding using Polyhedra</Tab>
+          <Tab>CrossChain Funding using Axellar</Tab>
         </TabList>
         <TabPanels>
         <TabPanel>
@@ -51,6 +53,9 @@ const ResearcherPage: React.FC<ResearcherPageProps> = ({address}) => {
           </TabPanel>
           <TabPanel>
             <Funding />
+          </TabPanel>
+          <TabPanel>
+            <SecretFunding />
           </TabPanel>
         </TabPanels>
       </Tabs>
