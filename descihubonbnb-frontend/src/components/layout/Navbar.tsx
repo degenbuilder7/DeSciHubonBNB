@@ -30,7 +30,8 @@ export default function Navbar() {
     { label: 'Researchhub', href: '/researchhub'},
     { label: 'AIAccessNFT', href: '/nft' },
     { label: 'Peer Review', href: '/nftchat' },
-    { label: 'Dashboard', href: `/dashboard/${address}` },
+    { label: 'Setup Meeting', href: `/dashboard/${address}`},
+    { label: 'Dashboard', href: `/${address}` },
   ];
 
   return (

@@ -11,7 +11,9 @@ import { Auth } from "@polybase/auth";
 import { ThirdwebProvider } from '@thirdweb-dev/react';
 import { BinanceTestnet , Mumbai } from "@thirdweb-dev/chains";
 import theme from "../../theme";
+import { QueryClient, QueryClientProvider } from 'react-query';
 
+const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   // polybase
   const polybase = new Polybase();
@@ -19,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider>
+      <QueryClientProvider client={queryClient}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ThirdwebProvider
       activeChain={BinanceTestnet}
@@ -42,6 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </AuthProvider>
         </PolybaseProvider>
       </ThirdwebProvider>
+      </QueryClientProvider>
     </ChakraProvider>
   )
 }

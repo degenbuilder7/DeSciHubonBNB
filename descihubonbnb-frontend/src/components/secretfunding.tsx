@@ -39,13 +39,13 @@ const SecretFunding = () => {
 
   const api = new AxelarAssetTransfer({ environment: Environment.TESTNET });
 
-
 async function test() {
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  await provider.send('eth_requestAccounts', []); // <- this promps user to connect metamask
   const signer = provider.getSigner();
 
-  console.log(signer,signer,"w")
+  console.log(signer,provider,"w")
 
   const requestOptions: SendTokenParams = {
     fromChain: CHAINS.TESTNET.POLYGON,
